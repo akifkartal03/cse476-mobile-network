@@ -5,7 +5,7 @@ from socket import *
 msg = "\r\n I love computer networks!"
 endmsg = "\r\n.\r\n"
 # Choose a mail server (e.g. Google mail server) and call it mailserver
-mailserver = ("mail.smtp2go.com", 5000)  # Fill in start #Fill in end
+mailserver = ('smtp.gmail.com', 587)  # Fill in start #Fill in end
 # Fill in start
 clientSocket = socket(AF_INET, SOCK_STREAM)
 clientSocket.connect(mailserver)
@@ -25,21 +25,21 @@ if recv1[:3] != '250':
 
 command = 'STARTTLS\r\n'.encode()
 clientSocket.send(command)
-recv = clientSocket.recv(1024).decode()
-print(recv)
+recv2 = clientSocket.recv(1024).decode()
+print(recv2)
 
-if recv[:3] != '220':
+if recv2[:3] != '220':
     print('220 reply not received from server')
 
 # Encrypt the socket
 clientSocket = ssl.wrap_socket(clientSocket)
-clientSocket.send("AUTH LOGIN " + b64encode("lab3@gmail.com".encode()) + "\r\n")
+clientSocket.send("AUTH LOGIN ".encode() + b64encode("cse476.2022@gmail.com".encode()) + "\r\n".encode())
 recv3 = clientSocket.recv(1024)
 print(recv3)
 if (recv3[:3] != "334"):
     print('334 reply not received from server.')
 
-clientSocket.send(b64encode("gtuforever".encode()) + "\r\n")
+clientSocket.send(b64encode("Gtuforever123.".encode()) + "\r\n".encode())
 recv4 = clientSocket.recv(1024)
 print(recv4)
 if (recv4[:3] != "235"):
@@ -47,7 +47,7 @@ if (recv4[:3] != "235"):
 
 # Send MAIL FROM command and print server response.
 # Fill in start
-mailFrom = "MAIL FROM: <lab3@gmail.com>\r\n"
+mailFrom = "MAIL FROM: <cse476.2022@gmail.com>\r\n"
 clientSocket.send(mailFrom.encode())
 recv5 = clientSocket.recv(1024)
 print(recv5)
@@ -58,7 +58,7 @@ if (recv5[:3] != '250'):
 
 # Send RCPT TO command and print server response.
 # Fill in start
-rcptToCommand = "RCPT TO: <lab3_1@gmail.com>\r\n"
+rcptToCommand = "RCPT TO: <akif.kartal2017@gtu.edu.tr>\r\n"
 clientSocket.send(rcptToCommand.encode())
 recv6 = clientSocket.recv(1024)
 print(recv6)
@@ -80,7 +80,7 @@ if (recv7[:3] != '354'):
 
 # Send message data.
 # Fill in start
-message = "SUBJECT: SMTP Mail Client Test\nSMTP Mail Client Test Content" + msg + endmsg
+message = "SUBJECT: cse476 Mail Test\nMail content" + msg + endmsg
 clientSocket.send(message.encode())
 recv8 = clientSocket.recv(1024)
 print(recv8)
@@ -91,14 +91,14 @@ if (recv8[:3] != '250'):
 # Send QUIT command and get server response.
 # Fill in start
 Quit = "Quit\r\n"
-print(Quit)
+print("Quit Message was sent")
 clientSocket.send(Quit.encode())
 recv9 = clientSocket.recv(1024)
 print(recv9)
 if (recv9[:3] != '221'):
     print('221 reply not received from server.')
 
-print("Mail Sent")
+print("Mail was sent. Good Bye...")
 # Fill in end
 
 clientSocket.close()
